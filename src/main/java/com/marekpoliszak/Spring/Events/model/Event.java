@@ -1,22 +1,15 @@
 package com.marekpoliszak.Spring.Events.model;
 
-import com.marekpoliszak.Spring.Events.data.EventRepository;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Objects;
 
 @Entity
-public class Event {
+public class Event extends AbstractEvent{
 
-    @Id
-    @GeneratedValue
-    private int id;
 
     @NotBlank(message = "Name is required.")
     @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters.")
@@ -29,13 +22,15 @@ public class Event {
     @Email(message = "Data must be in proper email format.")
     private String email;
 
-    private EventType type;
+    @ManyToOne
+    @NotNull(message = "Category is required")
+    private EventCategory eventCategory;
 
-    public Event(String name, String description, String email, EventType type) {
+    public Event(String name, String description, String email, EventCategory eventCategory) {
         this.name = name;
         this.description = description;
         this.email = email;
-        this.type = type;
+        this.eventCategory = eventCategory;
 
     }
 
@@ -65,31 +60,12 @@ public class Event {
         this.email = email;
     }
 
-    public EventType getType() {
-        return type;
+    public EventCategory getEventCategory() {
+        return eventCategory;
     }
 
-    public void setType(EventType type) {
-        this.type = type;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Event event = (Event) o;
-
-        return id == event.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setEventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
     }
 
     @Override

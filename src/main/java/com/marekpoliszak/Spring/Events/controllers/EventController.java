@@ -1,12 +1,11 @@
 package com.marekpoliszak.Spring.Events.controllers;
 
+import com.marekpoliszak.Spring.Events.data.EventCategoryRepository;
 import com.marekpoliszak.Spring.Events.data.EventRepository;
 import com.marekpoliszak.Spring.Events.model.Event;
 import com.marekpoliszak.Spring.Events.model.EventType;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -15,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 @RequestMapping("events")
 public class EventController {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private EventCategoryRepository eventCategoryRepository;
 
 
     @RequestMapping
@@ -37,7 +36,7 @@ public class EventController {
     public String renderCreateEventForm(Model model) {
         model.addAttribute("title", "Create Events");
         model.addAttribute(new Event());
-        model.addAttribute("types", EventType.values());
+        model.addAttribute("categories", eventCategoryRepository.findAll());
         return "events/create";
     }
 
@@ -46,6 +45,7 @@ public class EventController {
                                          Model model) {
         if(errors.hasErrors()) {
             model.addAttribute("title", "Create Events");
+            System.out.println(errors.getAllErrors());
             return "events/create";
         }
         eventRepository.save(newEvent);
