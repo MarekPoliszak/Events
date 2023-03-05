@@ -24,6 +24,12 @@
             </label>
             <p class="errors" th:errors="${event.email}"></p>
         </div>
+        <div class="form-group">
+            <label>Date
+                <input th:field="${event.date}" class="form-control">
+            </label>
+            <p class="errors" th:errors="${event.date}"></p>
+        </div>
         <p></p>
         <div class="form-group">
             <label>Type
@@ -34,6 +40,7 @@
                     ></option>
                 </select>
             </label>
+            <p class="errors" th:errors="${event.eventCategory}"></p>
         </div>
         <p></p>
         <div class="form-group">

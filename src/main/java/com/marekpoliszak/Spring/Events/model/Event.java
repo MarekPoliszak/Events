@@ -2,14 +2,12 @@ package com.marekpoliszak.Spring.Events.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Event extends AbstractEvent{
-
 
     @NotBlank(message = "Name is required.")
     @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters.")
@@ -22,14 +20,19 @@ public class Event extends AbstractEvent{
     @Email(message = "Data must be in proper email format.")
     private String email;
 
+    @NotBlank
+    @Pattern(regexp = "^((0)*[1-9]|1[012]|3[01])-((0)*[1-9]|1[012]|2[012]|3[01])-(19[0-9][0-9]|20[0-9][0-9])$", message = "Date must be in proper format: dd/MM/yyyy")
+    private String date;
+
     @ManyToOne
     @NotNull(message = "Category is required")
     private EventCategory eventCategory;
 
-    public Event(String name, String description, String email, EventCategory eventCategory) {
+    public Event(String name, String description, String email, String date, EventCategory eventCategory) {
         this.name = name;
         this.description = description;
         this.email = email;
+        this.date = date;
         this.eventCategory = eventCategory;
 
     }
@@ -58,6 +61,14 @@ public class Event extends AbstractEvent{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public EventCategory getEventCategory() {

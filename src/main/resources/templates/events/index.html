@@ -12,6 +12,7 @@
                 <td>Name</td>
                 <td>Description</td>
                 <td>Email</td>
+                <td>Date</td>
                 <td>Type</td>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
                 <td th:text="${event.name}">Name of Event</td>
                 <td th:text="${event.description}">Description of Event</td>
                 <td th:text="${event.email}">Event's email</td>
+                <td th:text="${event.date}">Event's date</td>
                 <td th:text="${event.eventCategory.name}">Event's category</td>
             </tr>
         </tbody>
